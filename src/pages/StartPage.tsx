@@ -1,5 +1,9 @@
+import MenuPage from "./MenuPage";
+
 const StartPage = () => {
-  return <div>StartPage</div>;
+  return <div>
+    <MenuPage />
+  </div>;
 };
 
 export default StartPage;
