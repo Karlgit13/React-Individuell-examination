@@ -5,36 +5,30 @@ import { RootState, AppDispatch } from "../store";
 
 const MenuPage = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { items, status, apiKey, apiKeyStatus } = useSelector(
-    (state: RootState) => state.menu
-  );
+  const { items, status, error, apiKey, apiKeyStatus } = useSelector((state: RootState) => state.menu);
 
   useEffect(() => {
-    if (!apiKey && apiKeyStatus === "idle") {
-      dispatch(fetchApiKey());
-    }
+    if (!apiKey && apiKeyStatus === "idle") dispatch(fetchApiKey());
   }, [apiKey, apiKeyStatus, dispatch]);
 
   useEffect(() => {
-    if (apiKey && apiKeyStatus === "succeeded" && status === "idle") {
-      dispatch(fetchMenu());
-    }
+    if (apiKey && apiKeyStatus === "succeeded" && status === "idle") dispatch(fetchMenu());
   }, [apiKey, apiKeyStatus, status, dispatch]);
 
   return (
     <div>
       <h1>Yum Yum Gimme Sum - Menu</h1>
+
+      {apiKeyStatus === "loading" && <p>Fetching API key...</p>}
       {status === "loading" && <p>Loading menu...</p>}
-      {status === "failed" && <p>Failed to load menu</p>}
+      {apiKeyStatus === "failed" && <p>⚠️ Failed to get API key: {error}</p>}
+      {status === "failed" && <p>⚠️ Failed to load menu: {error}</p>}
+
       <ul>
-        {Array.isArray(items) ? (
-          items.map((item) => (
-            <li key={item.id}>
-              {item.name} - {item.price} kr
-            </li>
-          ))
+        {items.length > 0 ? (
+          items.map((item) => <li key={item.id}>{item.name} - {item.price} kr</li>)
         ) : (
-          <p>Menu is not available.</p>
+          status === "succeeded" && <p>⚠️ No menu items available.</p>
         )}
       </ul>
     </div>
