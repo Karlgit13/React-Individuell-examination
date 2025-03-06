@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import MenuPage from "./pages/MenuPage";
-import CartPage from "./pages/CartPage";
-import OrderPage from "./pages/OrderPage";
-import StartPage from "./pages/StartPage";
+import MenuPage from "./components/MenuPage";
+import CartPage from "./components/CartPage";
+import OrderPage from "./components/OrderPage";
+import StartPage from "./components/StartPage";
 
 function App() {
   return (
