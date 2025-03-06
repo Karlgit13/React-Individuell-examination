@@ -3,6 +3,7 @@ import MenuPage from "./components/Menu";
 import CartPage from "./components/Cart";
 import OrderPage from "./components/Order";
 import StartPage from "./components/Start";
+import "./App.scss";
 
 function App() {
   return (
