@@ -1,9 +1,9 @@
-import Menu from "./Menu";
+import "../styles/start.scss";
 
 const Start = () => {
   return (
     <div>
-      <Menu />
+      
     </div>
   );
 };
