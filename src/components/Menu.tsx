@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchApiKey, fetchMenu } from "../store/menuSlice";
 import { RootState, AppDispatch } from "../store";
 
-const MenuPage = () => {
+const Menu = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { items, status, error, apiKey, apiKeyStatus } = useSelector((state: RootState) => state.menu);
 
@@ -35,4 +35,4 @@ const MenuPage = () => {
   );
 };
 
-export default MenuPage;
+export default Menu;
