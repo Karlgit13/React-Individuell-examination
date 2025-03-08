@@ -2,6 +2,7 @@ export interface MenuItem {
   id: string;
   name: string;
   price: number;
+  ingredients: string;
 }
 
 export interface MenuState {

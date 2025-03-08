@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchApiKey, fetchMenu } from "../store/menuSlice";
 import { RootState, AppDispatch } from "../store";
+import "../styles/menu.scss";
 
 const Menu = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -19,7 +20,7 @@ const Menu = () => {
   }, [apiKey, apiKeyStatus, status, dispatch]);
 
   return (
-    <div>
+    <div className="menu">
       <h1>Meny</h1>
 
       {apiKeyStatus === "loading" && <p>Fetching API key...</p>}
@@ -32,6 +33,8 @@ const Menu = () => {
           ? items.map((item) => (
               <li key={item.id}>
                 {item.name} - {item.price} kr
+                <br />
+                {item.ingredients}
               </li>
             ))
           : status === "succeeded" && <p>⚠️ No menu items available.</p>}
