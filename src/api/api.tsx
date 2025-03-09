@@ -31,7 +31,7 @@ export const fetchMenuFromServer = async (apiKey: string) => {
   if (!res.ok) throw new Error(`Failed to fetch menu: ${res.status}`);
 
   // Om förfrågan lyckas, returnera JSON-svaret som innehåller menyn
-  const data = await res.json()
-  console.log(data)
-  return data
+  const data = await res.json();
+  console.log(data);
+  return data;
 };

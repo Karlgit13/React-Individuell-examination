@@ -11,6 +11,13 @@ const Cart = () => {
   const dispatch = useDispatch<AppDispatch>();
   const cartItems = useSelector((state: RootState) => state.cart.items);
 
+  const getTotalPrice = () => {
+    return cartItems.reduce(
+      (total, item) => total + item.price * item.quantity,
+      0
+    );
+  };
+
   return (
     <div className="cart">
       <div className="cart-div">
@@ -33,7 +40,10 @@ const Cart = () => {
           </ul>
         )}
       </div>
-      <div className="total-div"></div>
+      <div className="total-div">
+        <h3>TOTALT {getTotalPrice()} SEK</h3>
+        <button>TAKE MY MONEY!</button>
+      </div>
     </div>
   );
 };

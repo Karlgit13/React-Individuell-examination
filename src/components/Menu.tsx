@@ -23,7 +23,7 @@ const Menu = () => {
 
   const handleAddToCart = (item: MenuItem) => {
     dispatch(addItemToCart(item));
-    console.log(item, "added to cart")
+    console.log(item, "added to cart");
   };
 
   return (
