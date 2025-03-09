@@ -12,3 +12,11 @@ export interface MenuState {
   apiKey: string | null;
   apiKeyStatus: "idle" | "loading" | "succeeded" | "failed";
 }
+
+export interface cartState {
+  items: cartItem[];
+}
+
+export interface cartItem extends MenuItem {
+  quantity: number;
+}

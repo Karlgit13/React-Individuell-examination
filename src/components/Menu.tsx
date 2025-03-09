@@ -1,8 +1,10 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchApiKey, fetchMenu } from "../store/menuSlice";
-import { RootState, AppDispatch } from "../store";
+import { RootState, AppDispatch } from "../store/store";
 import "../styles/menu.scss";
+import { MenuItem } from "../interfaces/interface";
+import { addItemToCart } from "../store/cartSlice";
 
 const Menu = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -18,6 +20,11 @@ const Menu = () => {
     if (apiKey && apiKeyStatus === "succeeded" && status === "idle")
       dispatch(fetchMenu());
   }, [apiKey, apiKeyStatus, status, dispatch]);
+
+  const handleAddToCart = (item: MenuItem) => {
+    dispatch(addItemToCart(item));
+    console.log(item, "added to cart")
+  };
 
   return (
     <div className="menu">
@@ -35,6 +42,7 @@ const Menu = () => {
                 {item.name} - {item.price} kr
                 <br />
                 {item.ingredients}
+                <button onClick={() => handleAddToCart(item)}>Lägg till</button>
               </li>
             ))
           : status === "succeeded" && <p>⚠️ No menu items available.</p>}
