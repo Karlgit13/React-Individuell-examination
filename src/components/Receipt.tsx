@@ -23,7 +23,16 @@ const Receipt = () => {
         }
 
         const data = await fetchReceipt(apiKey, orderId);
-        setReceipt(data);
+        console.log("Receipt data:", data); // Logga kvittodatat
+
+        // Hämta kvittot från receipt-objektet
+        const receiptData = data?.receipt;
+
+        if (receiptData && Array.isArray(receiptData.items)) {
+          setReceipt(receiptData); // Sätt receiptData istället för hela objektet
+        } else {
+          setError("Inga varor i kvittot.");
+        }
       } catch (error) {
         console.error(error);
         setError("Failed to fetch receipt");
@@ -50,7 +59,6 @@ const Receipt = () => {
       <p>
         <strong>Ordervärde:</strong> {receipt.orderValue} SEK
       </p>
-      <p></p>
 
       <ul>
         {Array.isArray(receipt.items) && receipt.items.length > 0 ? (
