@@ -4,6 +4,7 @@ import Cart from "./components/Cart";
 import Order from "./components/Order";
 import Start from "./components/Start";
 import "./App.scss";
+import Receipt from "./components/Receipt";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/menuPage" element={<Menu />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/order" element={<Order />} />
+        <Route path="/receipt" element={<Receipt />} />
       </Routes>
     </Router>
   );

@@ -20,3 +20,11 @@ export interface cartState {
 export interface cartItem extends MenuItem {
   quantity: number;
 }
+
+export interface Order {
+  id: string;
+  items: { name: string; price: number }[];
+  orderValue: number;
+  eta: string;
+  state: string;
+}

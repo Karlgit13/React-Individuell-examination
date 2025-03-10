@@ -1,37 +1,69 @@
+import { cartItem } from "../interfaces/interface";
+
 const API_URL = "https://fdnzawlcf6.execute-api.eu-north-1.amazonaws.com";
 
-// Funktion för att hämta API-nyckeln
 export const fetchApiKeyFromServer = async (): Promise<string> => {
-  // Skickar en POST-förfrågan till /keys endpointen för att hämta API-nyckeln
   const res = await fetch(`${API_URL}/keys`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" }, // Anger att vi skickar JSON-data
-    body: JSON.stringify({ tenant: "kalle" }), // Skickar med tenant-information i förfrågan
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ tenant: "kalle" }),
   });
 
-  // Om förfrågan misslyckas, kasta ett fel med statuskoden
   if (!res.ok) throw new Error(`Failed to fetch API key: ${res.status}`);
 
-  // Om förfrågan lyckas, hämta JSON-svaret
   const data = await res.json();
-  // Spara API-nyckeln i localStorage
   localStorage.setItem("apiKey", data.key);
-  // Returnera API-nyckeln
   return data.key;
 };
 
-// Funktion för att hämta menyn
 export const fetchMenuFromServer = async (apiKey: string) => {
-  // Skickar en GET-förfrågan till /menu endpointen med API-nyckeln i headers
   const res = await fetch(`${API_URL}/menu`, {
-    headers: { "x-zocom": apiKey }, // Inkluderar API-nyckeln i headers
+    headers: { "x-zocom": apiKey },
   });
 
-  // Om förfrågan misslyckas, kasta ett fel med statuskoden
   if (!res.ok) throw new Error(`Failed to fetch menu: ${res.status}`);
 
-  // Om förfrågan lyckas, returnera JSON-svaret som innehåller menyn
   const data = await res.json();
   console.log(data);
+  return data;
+};
+
+export const placeOrder = async (
+  apiKey: string,
+  tenant: string,
+  cartItems: cartItem[]
+) => {
+  const res = await fetch(`${API_URL}/${tenant}/orders`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-zocom": apiKey,
+    },
+    body: JSON.stringify({
+      items: cartItems.map((item) => item.id), // 🔹 Skicka bara ID:n
+    }),
+  });
+
+  if (!res.ok) {
+    throw new Error(`Failed to place order: ${res.status}`);
+  }
+
+  const data = await res.json();
+  return data;
+};
+
+export const fetchReceipt = async (apiKey: string, orderId: string) => {
+  const res = await fetch(`${API_URL}/receipts/${orderId}`, {
+    headers: {
+      "Content-Type": "application/json",
+      "x-zocom": apiKey,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch receipt: ${res.status}`);
+  }
+
+  const data = await res.json();
   return data;
 };
