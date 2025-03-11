@@ -8,6 +8,7 @@ import {
 } from "../store/cartSlice";
 import { useNavigate } from "react-router-dom";
 import { placeOrder } from "../api/api";
+import Navbar from "./Navbar";
 
 const Cart = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -27,7 +28,7 @@ const Cart = () => {
     try {
       const orderData = await placeOrder(apiKey, tenant, cartItems);
       console.log("orderdata", orderData);
-      navigate("/order", { state: { order: orderData.order } }); // Skickar orderData med navigate
+      navigate("/order", { state: { order: orderData.order } });
     } catch (error) {
       console.error(error);
     }
@@ -35,6 +36,7 @@ const Cart = () => {
 
   return (
     <div className="cart">
+      <Navbar />
       <div className="cart-div">
         {cartItems.length === 0 ? (
           <p>Varukorgen är tom.</p>
