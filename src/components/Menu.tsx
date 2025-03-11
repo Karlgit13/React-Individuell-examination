@@ -33,27 +33,48 @@ const Menu = () => {
       <ul>
         <h1 className="menu-header">Meny</h1>
         {items.length > 0
-          ? items.map((item) => (
-              <li key={item.id} onClick={() => handleAddToCart(item)}>
-                <div className="menu-item">
-                  <p>{item.name.toLocaleUpperCase()}</p>{" "}
-                  <p>........ {item.price} SEK</p>
-                </div>
-                <span className="menu-ingredients">
-                  {Array.isArray(item.ingredients)
-                    ? item.ingredients.join(", ")
-                    : item.ingredients}
-                  <hr />
-                </span>
-              </li>
-            ))
+          ? items
+              .filter((item) => item.type === "wonton" || item.type === "paris")
+              .map((item) => (
+                <li key={item.id} onClick={() => handleAddToCart(item)}>
+                  <div className="menu-item">
+                    <p>{item.name.toLocaleUpperCase()}</p>{" "}
+                    <p>........ {item.price} SEK</p>
+                  </div>
+                  <span className="menu-ingredients">
+                    {Array.isArray(item.ingredients)
+                      ? item.ingredients.join(", ")
+                      : item.ingredients}
+                    <hr />
+                  </span>
+                </li>
+              ))
           : status === "succeeded" && <p>No menu items available.</p>}
+        <h2>Dryck ...... 19 SEK</h2>
+        <div className="menu-drink">
+          {items
+            .filter((item) => item.type === "drink") // Filtrerar endast dippar
+            .map((drink) => (
+              <p
+                key={drink.id}
+                className="menu-sauce-dip"
+                onClick={() => handleAddToCart(drink)}
+              >
+                {drink.name}
+              </p>
+            ))}
+        </div>
+        <hr />
         <h2>Dipsås ...... 19 SEK</h2>
         <div className="menu-sauce">
           {items
             .filter((item) => item.type === "dip") // Filtrerar endast dippar
             .map((dip) => (
-              <p key={dip.id} className="menu-sauce-dip">
+              <p
+                key={dip.id}
+                className="menu-sauce-dip"
+                onClick={() => handleAddToCart(dip)}
+              >
                 {dip.name}
               </p>
             ))}

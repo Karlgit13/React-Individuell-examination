@@ -31,7 +31,7 @@ li:hover {
 li {
   padding: 0.5rem;
 }
-.menu-sauce {
+.menu-sauce, .menu-drink {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 3;
@@ -45,4 +45,9 @@ li {
 .menu-sauce-dip {
   padding: 0.5rem;
   border-radius: 1%;
+}
+h2 {
+  font-size: 32px;
+  display: flex;
+  justify-content: center;
 }
