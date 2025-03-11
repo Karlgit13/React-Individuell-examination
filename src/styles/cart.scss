@@ -1,4 +1,34 @@
 .cart {
   background-color: #eeeeee;
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.cart-div {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  flex-grow: 1;
+}
+
+.cart-li {
+  display: flex;
+  justify-content: space-between;
+}
+
+.total-div {
+  margin-top: auto;
+
+}
+
+.total-div-header {
+  display: flex;
+justify-content: space-between;
+padding: 0rem 1rem;
+background-color: #3531313D;
+}
+.total-div-button {
+  width: 100%;
+  padding: 1rem;
 }

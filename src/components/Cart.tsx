@@ -43,23 +43,34 @@ const Cart = () => {
         ) : (
           <ul>
             {cartItems.map((item) => (
-              <li key={item.id}>
-                {item.name} ........... {item.price * item.quantity} kr
-                <button onClick={() => dispatch(decreaseItemQuantity(item.id))}>
-                  -
-                </button>
-                <button onClick={() => dispatch(addItemToCart(item))}>+</button>
-                <button onClick={() => dispatch(removeItemFromCart(item.id))}>
-                  X
-                </button>
+              <li key={item.id} className="cart-li">
+                {item.name}
+                <div>
+                  ........... {item.price * item.quantity} SEK{"  "}
+                  <button
+                    onClick={() => dispatch(decreaseItemQuantity(item.id))}
+                  >
+                    -
+                  </button>
+                  <button onClick={() => dispatch(addItemToCart(item))}>
+                    +
+                  </button>
+                  <button onClick={() => dispatch(removeItemFromCart(item.id))}>
+                    X
+                  </button>
+                </div>
               </li>
             ))}
           </ul>
         )}
       </div>
       <div className="total-div">
-        <h3>TOTALT {getTotalPrice()} SEK</h3>
-        <button onClick={handlePlaceOrder}>TAKE MY MONEY!</button>
+        <h3 className="total-div-header">
+          <p>TOTALT</p> <p>{getTotalPrice()} SEK</p>
+        </h3>
+        <button className="total-div-button" onClick={handlePlaceOrder}>
+          TAKE MY MONEY!
+        </button>
       </div>
     </div>
   );
