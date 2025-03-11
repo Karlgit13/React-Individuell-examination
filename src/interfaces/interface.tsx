@@ -3,6 +3,7 @@ export interface MenuItem {
   name: string;
   price: number;
   ingredients: string;
+  type: string;
 }
 
 export interface MenuState {

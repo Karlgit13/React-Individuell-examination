@@ -12,12 +12,19 @@ const Navbar = () => {
 
   return (
     <div className="navbar">
-      <img src={logo} alt="Logo" className="navbar-logo" />
+      <Link to="/">
+        <img src={logo} alt="Logo" className="navbar-logo" />
+      </Link>
 
       <Link to="/cart" className="cart-icon">
         <IconButton>
-          <ShoppingBasketIcon style={{ fontSize: 50 }} className="navbar-basket" />
-          {totalQuantity > 0 && <span className="cart-badge">{totalQuantity}</span>}
+          <ShoppingBasketIcon
+            style={{ fontSize: 50 }}
+            className="navbar-basket"
+          />
+          {totalQuantity > 0 && (
+            <span className="cart-badge">{totalQuantity}</span>
+          )}
         </IconButton>
       </Link>
     </div>

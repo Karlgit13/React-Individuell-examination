@@ -31,16 +31,33 @@ const Menu = () => {
       {apiKeyStatus === "failed" && <p>Failed to get API key: {error}</p>}
       {status === "failed" && <p>Failed to load menu: {error}</p>}
       <ul>
+        <h1 className="menu-header">Meny</h1>
         {items.length > 0
           ? items.map((item) => (
-              <li key={item.id}>
-                {item.name} - {item.price} kr
-                <br />
-                {item.ingredients}
-                <button onClick={() => handleAddToCart(item)}>Lägg till</button>
+              <li key={item.id} onClick={() => handleAddToCart(item)}>
+                <div className="menu-item">
+                  <p>{item.name.toLocaleUpperCase()}</p>{" "}
+                  <p>........ {item.price} SEK</p>
+                </div>
+                <span className="menu-ingredients">
+                  {Array.isArray(item.ingredients)
+                    ? item.ingredients.join(", ")
+                    : item.ingredients}
+                  <hr />
+                </span>
               </li>
             ))
-          : status === "succeeded" && <p>⚠️ No menu items available.</p>}
+          : status === "succeeded" && <p>No menu items available.</p>}
+        <h2>Dipsås ...... 19 SEK</h2>
+        <div className="menu-sauce">
+          {items
+            .filter((item) => item.type === "dip") // Filtrerar endast dippar
+            .map((dip) => (
+              <p key={dip.id} className="menu-sauce-dip">
+                {dip.name}
+              </p>
+            ))}
+        </div>
       </ul>
     </div>
   );
