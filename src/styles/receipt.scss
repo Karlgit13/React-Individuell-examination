@@ -1,0 +1,46 @@
+.receipt-logo2 {
+  width: 40px;
+  padding: 1rem;
+}
+.receipt-page {
+  background-color: #605858;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.receipt-logo {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+}
+.receipt-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  margin-top: 130px;
+  padding: 1rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  border-radius: 1%;
+}
+.receipt-para1 {
+  font-size: 24px;
+  margin-top: -5px;
+}
+.receipt-para2 {
+  font-size: 12px;
+  margin-top: -10px;
+}
+.receipt-order-button {
+  margin-top: auto;
+  padding: 1rem;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  background-color: #353131;
+  color: white;
+  font-size: 18px;
+  border-radius: 1%;
+}

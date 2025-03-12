@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Order } from "../interfaces/interface"; // Importera Order-typen
 import { fetchReceipt } from "../api/api"; // Importera fetchReceipt-funktionen
+import "../styles/receipt.scss";
+import logo2 from "../assets/logo2.png";
+import logo from "../assets/Logo.png";
 
 const Receipt = () => {
   const location = useLocation();
   const [receipt, setReceipt] = useState<Order | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchReceiptData = async () => {
@@ -21,7 +25,7 @@ const Receipt = () => {
           setError("API key or Order ID is missing");
           return;
         }
-        
+
         const data = await fetchReceipt(apiKey, orderId);
         console.log("Receipt data:", data); // Logga kvittodatat
 
@@ -51,26 +55,39 @@ const Receipt = () => {
   }
 
   return (
-    <div>
-      <h2>Kvitto</h2>
-      <p>
-        <strong>Order-ID:</strong> {receipt.id}
-      </p>
-      <p>
-        <strong>Ordervärde:</strong> {receipt.orderValue} SEK
-      </p>
+    <div className="receipt-page">
+      <Link to={"/"}>
+        <img src={logo} alt="logo" className="receipt-logo" />
+      </Link>
 
-      <ul>
-        {Array.isArray(receipt.items) && receipt.items.length > 0 ? (
-          receipt.items.map((item, index) => (
-            <li key={index}>
-              {item.name} - {item.price} SEK
-            </li>
-          ))
-        ) : (
-          <p>Inga varor i kvittot.</p>
-        )}
-      </ul>
+      <div className="receipt-container">
+        <img src={logo2} alt="logo" className="receipt-logo2" />
+        <p className="receipt-para1">
+          <strong>KVITTO</strong>
+        </p>
+        <p className="receipt-para2">
+          <strong>#</strong>
+          {receipt.id.toLocaleUpperCase()}
+        </p>
+
+        <ul className="receipt-ul">
+          {Array.isArray(receipt.items) && receipt.items.length > 0 ? (
+            receipt.items.map((item, index) => (
+              <li key={index}>
+                {item.name} ....... {item.price} SEK
+              </li>
+            ))
+          ) : (
+            <p>Inga varor i kvittot.</p>
+          )}
+        </ul>
+        <p>
+          <strong>Ordervärde:</strong> <strong>{receipt.orderValue} SEK</strong>
+        </p>
+      </div>
+      <button onClick={() => navigate("/")} className="receipt-order-button">
+        GÖR EN NY BESTÄLLNING
+      </button>
     </div>
   );
 };
