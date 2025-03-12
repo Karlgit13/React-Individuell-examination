@@ -1,6 +1,9 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { fetchReceipt } from "../api/api"; // Importera din nya API-funktion
+import "../styles/order.scss";
+import orderImage from "../assets/etaImage.png";
+import logo from "../assets/Logo.png";
 
 const Order = () => {
   const location = useLocation();
@@ -46,17 +49,31 @@ const Order = () => {
   }
 
   return (
-    <div>
-      <h2>Orderbekräftelse</h2>
-      <p>
-        <strong>Order-ID:</strong> {order.id}
+    <div className="order-page">
+      <Link to={"/"}>
+        <img src={logo} alt="logo" className="order-logo" />
+      </Link>
+
+      <img src={orderImage} alt="orderImage" className="order-image" />
+      <h3 className="order-header3">
+        DINA WONTONS <br />
+        TILLAGAS!
+      </h3>
+      <p className="order-para1">
+        <strong>ETA </strong> {minutesLeft} MIN
       </p>
-      <p>
-        <strong>Leverans om:</strong> {minutesLeft} min
+      <p className="order-para2">
+        <strong>#</strong>
+        {order.id.toUpperCase()}
       </p>
-      <div>
-        <button onClick={() => navigate("/")}>Gör en ny beställning</button>
-        <button onClick={handleGetReceipt}>SE KVITTO</button>
+
+      <div className="order-buttons">
+        <button className="order-button1" onClick={() => navigate("/")}>
+          GÖR EN NY BESTÄLLNING
+        </button>
+        <button className="order-button2" onClick={handleGetReceipt}>
+          SE KVITTO
+        </button>
       </div>
     </div>
   );

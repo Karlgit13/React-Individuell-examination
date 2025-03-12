@@ -15,20 +15,25 @@
 .cart-li {
   display: flex;
   justify-content: space-between;
+  font-size: 18px;
 }
 
 .total-div {
   margin-top: auto;
-
 }
 
 .total-div-header {
   display: flex;
-justify-content: space-between;
-padding: 0rem 1rem;
-background-color: #3531313D;
+  justify-content: space-between;
+  padding: 0rem 1rem;
+  background-color: #3531313d;
+  margin-bottom: -0.2rem;
+  font-size: 18px;
 }
 .total-div-button {
   width: 100%;
   padding: 1rem;
+  background-color: #353131;
+  color: white;
+  font-size: 18px;
 }

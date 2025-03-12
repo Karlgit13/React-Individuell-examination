@@ -17,6 +17,8 @@ const Cart = () => {
   const navigate = useNavigate();
   const tenant = "x-zocom";
 
+
+  // räknar ihop totala summan av varukorg
   const getTotalPrice = () => {
     return cartItems.reduce(
       (total, item) => total + item.price * item.quantity,
@@ -24,6 +26,8 @@ const Cart = () => {
     );
   };
 
+
+  // hanterar api anrop hämtar orderData
   const handlePlaceOrder = async () => {
     try {
       const orderData = await placeOrder(apiKey, tenant, cartItems);

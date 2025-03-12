@@ -8,19 +8,25 @@ import { addItemToCart } from "../store/cartSlice";
 
 const Menu = () => {
   const dispatch = useDispatch<AppDispatch>();
+  // hämtar states från Redux
   const { items, status, error, apiKey, apiKeyStatus } = useSelector(
     (state: RootState) => state.menu
   );
 
+  // useeffect används för hämta api nyckel när komponenten monteras
   useEffect(() => {
     if (!apiKey && apiKeyStatus === "idle") dispatch(fetchApiKey());
   }, [apiKey, apiKeyStatus, dispatch]);
 
+
+  // om apinyckel lyckas hämtas körs fetchMenu anropet och hämtar menyn
   useEffect(() => {
     if (apiKey && apiKeyStatus === "succeeded" && status === "idle")
       dispatch(fetchMenu());
   }, [apiKey, apiKeyStatus, status, dispatch]);
 
+
+  // tar item som parameter och lägger till item till cart
   const handleAddToCart = (item: MenuItem) => {
     dispatch(addItemToCart(item));
     console.log(item.name, "added to cart");
@@ -32,6 +38,7 @@ const Menu = () => {
       {status === "failed" && <p>Failed to load menu: {error}</p>}
       <ul>
         <h1 className="menu-header">Meny</h1>
+        {/* */}
         {items.length > 0
           ? items
               .filter((item) => item.type === "wonton" || item.type === "paris")

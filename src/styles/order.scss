@@ -1,0 +1,49 @@
+.order-image {
+    width: 80%;
+    max-width: 500px;
+    margin-top: auto;
+}
+.order-logo {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+}
+.order-page {
+    background-color: #605858;
+    height: 100vh;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.order-header3 {
+    text-align: center;
+    font-size: 32px;
+}
+.order-para1 {
+    font-size: 26px;
+    margin-top: -0.7rem;
+}
+.order-para2 {
+    font-size: 15px;
+    margin-top: -0.7rem;
+}
+.order-buttons {
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+    width: 100%;
+    align-items: center;
+}
+.order-buttons button {
+    padding: 1rem;
+    width: 90%;
+    margin-bottom: 1rem;
+    border-radius: 1%;
+    font-size: 18px;
+}
+.order-button1 {
+    background-color: #353131;
+    color: white;
+}

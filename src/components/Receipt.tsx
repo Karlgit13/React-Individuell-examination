@@ -21,7 +21,7 @@ const Receipt = () => {
           setError("API key or Order ID is missing");
           return;
         }
-
+        
         const data = await fetchReceipt(apiKey, orderId);
         console.log("Receipt data:", data); // Logga kvittodatat
 

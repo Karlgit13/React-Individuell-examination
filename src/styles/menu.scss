@@ -15,6 +15,7 @@
 .menu-item {
   display: flex;
   justify-content: space-between;
+  font-size: 18px;
 }
 .menu-ingredients {
   font-size: 14px;
@@ -38,6 +39,7 @@ li {
   place-items: center;
   justify-content: center;
   align-items: center;
+  font-size: 18px;
 }
 .menu-sauce-dip:hover {
   background-color: #f1f0ec1f;
@@ -47,7 +49,7 @@ li {
   border-radius: 1%;
 }
 h2 {
-  font-size: 32px;
+  font-size: 24px;
   display: flex;
   justify-content: center;
 }
