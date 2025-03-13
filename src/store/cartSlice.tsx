@@ -1,59 +1,58 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { cartState, MenuItem } from "../interfaces/interface";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit"; // Importerar nödvändiga funktioner från Redux Toolkit
+import { cartState, MenuItem } from "../interfaces/interface"; // Importerar typer från en annan fil
 
+// Definierar initialt tillstånd för kundvagnen
 const initialState: cartState = {
-  items: [],
+  items: [], // En tom lista med varor
 };
-// Definierar det initiala tillståndet för kundvagnen, som är en tom lista med objekt
 
+// Skapar en slice för kundvagnen med hjälp av createSlice
 const cartSlice = createSlice({
-  name: "cart",
-  // Namnger denna slice "cart"
-  initialState,
-  // Sätter initialState som det initiala tillståndet för denna slice
+  name: "cart", // Namn på slicen
+  initialState, // Initialt tillstånd
   reducers: {
+    // Reducer för att lägga till en vara i kundvagnen
     addItemToCart: (state, action: PayloadAction<MenuItem>) => {
-      // Definierar en reducer för att lägga till en vara i kundvagnen
+      // Kollar om varan redan finns i kundvagnen
       const existingItem = state.items.find(
         (item) => item.id === action.payload.id
       );
-      // Kollar om varan redan finns i kundvagnen
 
       if (existingItem) {
+        // Om varan redan finns, öka kvantiteten
         existingItem.quantity += 1;
-        // Om varan redan finns, ökar kvantiteten med 1
       } else {
+        // Om varan inte finns, lägg till den med kvantitet 1
         state.items.push({ ...action.payload, quantity: 1 });
-        // Om varan inte finns, läggs den till i kundvagnen med kvantiteten 1
       }
     },
+    // Reducer för att ta bort en vara från kundvagnen
     removeItemFromCart: (state, action: PayloadAction<string>) => {
-      // Definierar en reducer för att ta bort en vara från kundvagnen
+      // Filtrerar bort varan med det givna id:t
       state.items = state.items.filter((item) => item.id !== action.payload);
-      // Filtrerar bort varan med det specifika id:t från kundvagnen
     },
+    // Reducer för att minska kvantiteten av en vara i kundvagnen
     decreaseItemQuantity: (state, action: PayloadAction<string>) => {
-      // Definierar en reducer för att minska kvantiteten av en vara i kundvagnen
+      // Hittar varan med det givna id:t
       const item = state.items.find((item) => item.id === action.payload);
-      // Hittar varan i kundvagnen
 
       if (item) {
+        // Minskar kvantiteten
         item.quantity -= 1;
-        // Minskar kvantiteten med 1
+        // Om kvantiteten blir 0, ta bort varan från kundvagnen
         if (item.quantity === 0) {
           state.items = state.items.filter(
             (item) => item.id !== action.payload
           );
-          // Om kvantiteten blir 0, tas varan bort från kundvagnen
         }
       }
     },
   },
 });
 
+// Exporterar actions för att kunna användas i komponenter
 export const { addItemToCart, removeItemFromCart, decreaseItemQuantity } =
   cartSlice.actions;
-// Exporterar de definierade actions för att kunna användas i komponenter
 
+// Exporterar reducer för att kunna användas i store
 export default cartSlice.reducer;
-// Exporterar reducern för att kunna inkluderas i store
