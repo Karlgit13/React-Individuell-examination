@@ -12,7 +12,7 @@ import "../styles/receipt.scss";
 import logo2 from "../assets/logo2.png";
 import logo from "../assets/Logo.png";
 
-// 🎯 Huvudkomponenten för kvittosidan
+// Huvudkomponenten för kvittosidan
 const Receipt = () => {
   // Hämtar information från URL:ens state (t.ex. orderId)
   const location = useLocation();
@@ -23,7 +23,7 @@ const Receipt = () => {
   // useNavigate hook för att möjliggöra navigation tillbaka till startsidan
   const navigate = useNavigate();
 
-  // 🎯 useEffect körs när komponenten renderas första gången och när location.state ändras
+  // useEffect körs när komponenten renderas första gången och när location.state ändras
   useEffect(() => {
     // Asynkron funktion för att hämta kvittodata från API:et
     const fetchReceiptData = async () => {
@@ -76,7 +76,7 @@ const Receipt = () => {
     return <p>Ingen kvitto hittades.</p>;
   }
 
-  // 🎯 Returnerar JSX-strukturen för kvittosidan
+  // Returnerar JSX-strukturen för kvittosidan
   return (
     <div className="receipt-page">
       {/* Klickbar logotyp som navigerar tillbaka till startsidan */}
@@ -122,5 +122,5 @@ const Receipt = () => {
   );
 };
 
-// 🎯 Exporterar Receipt-komponenten så att den kan användas i appen
+// Exporterar Receipt-komponenten så att den kan användas i appen
 export default Receipt;
