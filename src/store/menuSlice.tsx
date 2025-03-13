@@ -2,90 +2,86 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { MenuItem, MenuState } from "../interfaces/interface";
 import { fetchApiKeyFromServer, fetchMenuFromServer } from "../api/api";
 
-// Definierar initialt tillstånd för menyn
 const initialState: MenuState = {
-  items: [], // Lista över menyobjekt
-  status: "idle", // Status för menyhämtning (idle, loading, succeeded, failed)
-  error: null, // Felmeddelande om något går fel
-  apiKey: localStorage.getItem("apiKey") || null, // API-nyckel hämtad från localStorage
-  apiKeyStatus: localStorage.getItem("apiKey") ? "succeeded" : "idle", // Status för API-nyckelhämtning
+  items: [],
+  status: "idle",
+  error: null,
+  apiKey: localStorage.getItem("apiKey") || null,
+  apiKeyStatus: localStorage.getItem("apiKey") ? "succeeded" : "idle",
 };
 
-// Skapar en asynkron thunk för att hämta API-nyckeln
 export const fetchApiKey = createAsyncThunk<
-  string, // Typen av värdet som returneras vid framgång
-  void, // Typen av argument som skickas till thunk
-  { rejectValue: string } // Typen av värdet som returneras vid avslag
+  string,
+  void,
+  { rejectValue: string }
 >(
-  "menu/fetchApiKey", // Namn på thunk
+  "menu/fetchApiKey",
   async (_, { rejectWithValue }) => {
     try {
-      return await fetchApiKeyFromServer(); // Försöker hämta API-nyckeln från servern
+      return await fetchApiKeyFromServer();
     } catch (error) {
       return rejectWithValue(
-        error instanceof Error ? error.message : "Unknown error" // Returnerar felmeddelande vid misslyckande
+        error instanceof Error ? error.message : "Unknown error"
       );
     }
   }
 );
 
-// Skapar en asynkron thunk för att hämta menyn
 export const fetchMenu = createAsyncThunk<
-  { items: MenuItem[] }, // Typen av värdet som returneras vid framgång
-  void, // Typen av argument som skickas till thunk
-  { state: { menu: MenuState }; rejectValue: string } // Typen av värdet som returneras vid avslag
+  { items: MenuItem[] },
+  void,
+  { state: { menu: MenuState }; rejectValue: string }
 >(
-  "menu/fetchMenu", // Namn på thunk
+  "menu/fetchMenu",
   async (_, { getState, rejectWithValue }) => {
-    const apiKey = getState().menu.apiKey; // Hämtar API-nyckeln från tillståndet
-    if (!apiKey) return rejectWithValue("API key is missing"); // Returnerar fel om API-nyckeln saknas
+    const apiKey = getState().menu.apiKey;
+    if (!apiKey) return rejectWithValue("API key is missing");
 
     try {
-      return await fetchMenuFromServer(apiKey); // Försöker hämta menyn från servern med API-nyckeln
+      return await fetchMenuFromServer(apiKey);
     } catch (error) {
       return rejectWithValue(
-        error instanceof Error ? error.message : "Unknown error" // Returnerar felmeddelande vid misslyckande
+        error instanceof Error ? error.message : "Unknown error"
       );
     }
   }
 );
 
-// Skapar en slice för menyn med initialt tillstånd och reducerare
 const menuSlice = createSlice({
-  name: "menu", // Namn på slice
-  initialState, // Initialt tillstånd
-  reducers: {}, // Reducerare (tom i detta fall)
+  name: "menu",
+  initialState,
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchApiKey.pending, (state) => {
-        state.apiKeyStatus = "loading"; // Sätter status till "loading" när API-nyckeln hämtas
+        state.apiKeyStatus = "loading";
       })
       .addCase(
         fetchApiKey.fulfilled,
         (state, action: PayloadAction<string>) => {
-          state.apiKey = action.payload; // Uppdaterar API-nyckeln vid framgång
-          state.apiKeyStatus = "succeeded"; // Sätter status till "succeeded"
+          state.apiKey = action.payload;
+          state.apiKeyStatus = "succeeded";
         }
       )
       .addCase(fetchApiKey.rejected, (state, action) => {
-        state.apiKeyStatus = "failed"; // Sätter status till "failed" vid misslyckande
-        state.error = action.payload ?? "An unexpected error occurred"; // Sparar felmeddelandet
+        state.apiKeyStatus = "failed";
+        state.error = action.payload ?? "An unexpected error occurred";
       })
       .addCase(fetchMenu.pending, (state) => {
-        state.status = "loading"; // Sätter status till "loading" när menyn hämtas
+        state.status = "loading";
       })
       .addCase(
         fetchMenu.fulfilled,
         (state, action: PayloadAction<{ items: MenuItem[] }>) => {
-          state.items = action.payload.items; // Uppdaterar menyobjekten vid framgång
-          state.status = "succeeded"; // Sätter status till "succeeded"
+          state.items = action.payload.items;
+          state.status = "succeeded";
         }
       )
       .addCase(fetchMenu.rejected, (state, action) => {
-        state.status = "failed"; // Sätter status till "failed" vid misslyckande
-        state.error = action.payload ?? "An unexpected error occurred"; // Sparar felmeddelandet
+        state.status = "failed";
+        state.error = action.payload ?? "An unexpected error occurred";
       });
   },
 });
 
-export default menuSlice.reducer; // Exporterar reduceraren för användning i store
+export default menuSlice.reducer;

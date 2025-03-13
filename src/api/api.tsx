@@ -1,118 +1,94 @@
-// Importerar gränssnittet "cartItem" från en separat fil som innehåller typer/interfacen
-// Detta används för att ge korrekt typning på varukorgen i placeOrder-funktionen
+// importerar interfaces
 import { cartItem } from "../interfaces/interface";
 
-// Definierar bas-URL:en för API:et som används i alla API-anrop
+// API - bas-url
 const API_URL = "https://fdnzawlcf6.execute-api.eu-north-1.amazonaws.com";
 
-/**
- * Funktion för att hämta en API-nyckel från servern.
- * Denna nyckel lagras sedan i localStorage för att användas i framtida API-anrop.
- *
- * @returns {Promise<string>} - En Promise som returnerar API-nyckeln som en sträng.
- */
+// asynkron funktion för att hämta API-nyckel.
+// fetch körs med POST-metoden till api-url/keys
+// i body skickas tenant "kalle" med
+// om response inte är ok kastas ett error med statusen
+// om response är OK returneras data och sparar API-nyckel i localstorage
 export const fetchApiKeyFromServer = async (): Promise<string> => {
-  // Skickar en POST-förfrågan till API:et för att skapa en ny API-nyckel
   const res = await fetch(`${API_URL}/keys`, {
-    method: "POST", // Använder POST-metoden för att skapa nyckeln
-    headers: { "Content-Type": "application/json" }, // Anger att vi skickar JSON-data
-    body: JSON.stringify({ tenant: "kalle" }), // Skickar en JSON-body med en "tenant"-parameter
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ tenant: "kalle" }),
   });
 
-  // Om servern svarar med en felstatus kastas ett fel
   if (!res.ok) throw new Error(`Failed to fetch API key: ${res.status}`);
 
-  // Omvandla svaret till JSON
   const data = await res.json();
-
-  // Sparar API-nyckeln i webbläsarens localStorage för framtida användning
   localStorage.setItem("apiKey", data.key);
-
-  // Returnerar API-nyckeln
   return data.key;
 };
 
-/**
- * Funktion för att hämta menyn från servern.
- *
- * @param {string} apiKey - API-nyckeln för autentisering.
- * @returns {Promise<any>} - En Promise som returnerar menyn i JSON-format.
- */
+// asynkron funktion som tar apiKey som parameter och hämtar meny
+// fetch körs till API-url/menu
+// API-nyckeln skickas med i headern
+// om response status inte är OK, kasta error
+// om response status är OK returnera och lagra data
 export const fetchMenuFromServer = async (apiKey: string) => {
-  // Skickar en GET-förfrågan till API:et med API-nyckeln som header
   const res = await fetch(`${API_URL}/menu`, {
-    headers: { "x-zocom": apiKey }, // API-nyckeln används för autentisering
+    headers: { "x-zocom": apiKey },
   });
 
-  // Hantera fel om förfrågan misslyckas
   if (!res.ok) throw new Error(`Failed to fetch menu: ${res.status}`);
 
-  // Omvandla svaret till JSON-format
   const data = await res.json();
-
-  // Logga datan i konsolen för debugging
   console.log(data);
-
   return data;
 };
 
-/**
- * Funktion för att lägga en beställning via API:et.
- *
- * @param {string} apiKey - API-nyckeln för autentisering.
- * @param {string} tenant - Namnet på den tenant som beställningen görs under.
- * @param {cartItem[]} cartItems - En array av varor som användaren vill beställa.
- * @returns {Promise<any>} - En Promise som returnerar beställningens responsdata.
- */
+// asynkron funktion för att placera beställning
+// asynkron funktion med 3 parametrar, apiKey, tenant & cartItems
+// fetch körs med POST metoden & skickar med "tenant" till API-url/orders
+// api-nyckeln skickas med i headers
+// cartItems mappas över och skickas med i body
+// om response ej OK, kasta error
+// om response OK, returnera och lagra data
 export const placeOrder = async (
   apiKey: string,
   tenant: string,
   cartItems: cartItem[]
 ) => {
-  // Skickar en POST-förfrågan till API:et för att skapa en beställning
   const res = await fetch(`${API_URL}/${tenant}/orders`, {
-    method: "POST", // Använder POST-metoden för att skicka en ny beställning
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "x-zocom": apiKey, // Skickar API-nyckeln i headers för autentisering
+      "x-zocom": apiKey,
     },
     body: JSON.stringify({
-      items: cartItems.map((item) => item.id), // 🔹 Skickar endast varornas ID:n, inte hela objekten
+      items: cartItems.map((item) => item.id),
     }),
   });
 
-  // Om förfrågan misslyckas kastas ett fel
   if (!res.ok) {
     throw new Error(`Failed to place order: ${res.status}`);
   }
 
-  // Omvandla svaret till JSON-format
   const data = await res.json();
   return data;
 };
 
-/**
- * Funktion för att hämta kvitto för en genomförd beställning.
- *
- * @param {string} apiKey - API-nyckeln för autentisering.
- * @param {string} orderId - ID för den beställning man vill hämta kvitto för.
- * @returns {Promise<any>} - En Promise som returnerar kvittodata i JSON-format.
- */
+// asynkron funktion för att hämta kvitto från API efter beställning lagts
+// funktion tar 2 parametrar, apiKey & orderId
+// fetch körs till api-url/receipts och skickar med orderId
+// api-nyckel skickas med i headers
+// om status ej OK, kasta error
+// om status OK, returnera och lagra data
 export const fetchReceipt = async (apiKey: string, orderId: string) => {
-  // Skickar en GET-förfrågan till API:et för att hämta kvittot
   const res = await fetch(`${API_URL}/receipts/${orderId}`, {
     headers: {
       "Content-Type": "application/json",
-      "x-zocom": apiKey, // API-nyckeln används för autentisering
+      "x-zocom": apiKey,
     },
   });
 
-  // Hantera fel om förfrågan misslyckas
   if (!res.ok) {
     throw new Error(`Failed to fetch receipt: ${res.status}`);
   }
 
-  // Omvandla svaret till JSON-format
   const data = await res.json();
   return data;
 };
