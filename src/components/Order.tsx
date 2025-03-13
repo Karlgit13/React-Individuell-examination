@@ -1,3 +1,4 @@
+// Nödvändiga importeringar från react-router, bilder, hooks & styling.
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { fetchReceipt } from "../api/api";
@@ -5,7 +6,15 @@ import "../styles/order.scss";
 import orderImage from "../assets/etaImage.png";
 import logo from "../assets/Logo.png";
 
+// Komponenten Order defineras.
 const Order = () => {
+  // react-hooks används.
+  // useLocation används för hämta informationen om den aktuella URL:en inklusive eventuella state-data.
+  // useNavigate används för navigering.
+  // useEffect används för att ladda data när komponenten monteras eller som i detta fall när "order" ändras.
+  // location.state?.order används för att hämta en order-variabel från den state som skickades när användaren navigerade till denna sida.
+  // useState används för att lagra ETA tiden & kvitto.
+  // api-nyckel hämtas från localStorage.
   const location = useLocation();
   const navigate = useNavigate();
   const order = location.state?.order;
@@ -17,6 +26,8 @@ const Order = () => {
   useEffect(() => {
     if (!order) return;
 
+    // funktion för omvandla datum och tid till "minuter kvar"
+    // interval sätts så calculateMinutesLeft körs var 10:e sekund
     const calculateMinutesLeft = () => {
       const etaTime = new Date(order.eta).getTime();
       const currentTime = Date.now();
@@ -33,6 +44,11 @@ const Order = () => {
     return () => clearInterval(interval);
   }, [order]);
 
+  // asynkron funktion för att hämta kvitto.
+  // fetchReceipt funktion körs och skickar med API-nyckel & orderId.
+  // setReceipt state uppdateras med data från fetchReceipt funktionen.
+  // navigering används för att hoppa till kvitto sidan och även skicka med states orderId & receiptData.
+  // om error uppstår loggas det till konsoll.
   const handleGetReceipt = async () => {
     try {
       const receiptData = await fetchReceipt(apiKey, order.id);
@@ -52,6 +68,8 @@ const Order = () => {
 
   return (
     <div className="order-page">
+      {/* Link & navigate används för navigering, toUpperCase används för göra stora bokstäver */}
+      {/* När man klickar på "SE KVITTO" anropas handleGetReceipt */}
       <Link to={"/"}>
         <img src={logo} alt="logo" className="order-logo" />
       </Link>
