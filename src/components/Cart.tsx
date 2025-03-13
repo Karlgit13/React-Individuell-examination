@@ -1,4 +1,4 @@
-// nödvändiga importeringar från redux, store, slice, react-router, API & styling.
+// nödvändiga importeringar från redux, store, cartSlice, react-router, API & styling.
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
 import "../styles/cart.scss";
@@ -13,12 +13,12 @@ import Navbar from "./Navbar";
 
 // komponenten Cart defineras.
 const Cart = () => {
-  // react-hooks så som useDispatch, useSelector & useNavigate används
-  // useDispatch används för att skicka "actions" till redux store
-  // useSelector används för att hämta data(state) från redux store
+  // react-hooks så som useDispatch, useSelector & useNavigate används.
+  // useDispatch används för att skicka "actions" till redux store.
+  // useSelector används för att hämta data(state) från redux store.
   // useNavigate används för navigering.
-  // API-nyckel hämtas från localstorage
-  // x-zocom lagras i tenant-variabeln
+  // API-nyckel hämtas från localstorage.
+  // x-zocom lagras i tenant-variabeln.
   const dispatch = useDispatch<AppDispatch>();
   const cartItems = useSelector((state: RootState) => state.cart.items);
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ const Cart = () => {
   const tenant = "x-zocom";
 
   // funktion för räkna ihop totala priset på varor.
-  // reduce metoden används för att räkna priset gånger antalet
+  // reduce metoden används för att räkna priset gånger antalet.
   const getTotalPrice = () => {
     return cartItems.reduce(
       (total, item) => total + item.price * item.quantity,
@@ -34,10 +34,10 @@ const Cart = () => {
     );
   };
 
-  // asynkron funktion för hantera beställning
-  // placeOrder importeras och körs inuti funktion och lagrar data
-  // navigate skickar en till order sidan och även skickar med orderData som state
-  // om error, logga till konsoll
+  // asynkron funktion för hantera beställning.
+  // placeOrder importeras och körs inuti funktion och lagrar data.
+  // navigate skickar en till order sidan och även skickar med orderData som state.
+  // om error, logga till konsoll.
   const handlePlaceOrder = async () => {
     try {
       const orderData = await placeOrder(apiKey, tenant, cartItems);
