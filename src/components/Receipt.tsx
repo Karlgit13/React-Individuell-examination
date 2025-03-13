@@ -73,16 +73,16 @@ const Receipt = () => {
         <ul className="receipt-ul">
           {Array.isArray(receipt.items) && receipt.items.length > 0 ? (
             receipt.items.map((item, index) => (
-              <li key={index}>
-                {item.name} ....... {item.price} SEK
+              <li key={index} className="receipt-li">
+                <span>{item.name}</span> <span>....... {item.price} SEK</span>
               </li>
             ))
           ) : (
             <p>Inga varor i kvittot.</p>
           )}
         </ul>
-        <p>
-          <strong>Ordervärde:</strong> <strong>{receipt.orderValue} SEK</strong>
+        <p className="receipt-para3">
+          <strong>TOTALT</strong> <strong>{receipt.orderValue} SEK</strong>
         </p>
       </div>
       <button onClick={() => navigate("/")} className="receipt-order-button">

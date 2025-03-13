@@ -46,6 +46,7 @@ const Cart = () => {
           <p>Varukorgen är tom.</p>
         ) : (
           <ul>
+            <hr />
             {cartItems.map((item) => (
               <li key={item.id} className="cart-li">
                 {item.name}
@@ -65,6 +66,7 @@ const Cart = () => {
                 </div>
               </li>
             ))}
+            <hr />
           </ul>
         )}
       </div>

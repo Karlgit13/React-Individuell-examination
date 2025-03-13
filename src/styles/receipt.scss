@@ -34,8 +34,8 @@
   margin-top: -10px;
 }
 .receipt-order-button {
-  margin-top: auto;
   padding: 1rem;
+  margin-top: auto;
   margin-left: 10px;
   margin-right: 10px;
   margin-bottom: 10px;
@@ -43,4 +43,18 @@
   color: white;
   font-size: 18px;
   border-radius: 1%;
+}
+
+.receipt-para3 {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  background-color: #3531313d;
+  margin-top: auto;
+  padding: 1.5rem;
+  margin-bottom: -1rem;
+}
+.receipt-li {
+  display: flex;
+  justify-content: space-between;
 }
