@@ -1,4 +1,4 @@
-// nödvändiga importeringar från redux, menuSlice, cartSlice, store, infaces & styling.
+// nödvändiga importeringar från redux, menuSlice, cartSlice, store, interfaces & styling.
 import "../styles/menu.scss";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
