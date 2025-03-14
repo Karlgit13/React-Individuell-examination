@@ -1,3 +1,4 @@
+// nödvändiga imports från react, react-router, interfaces, API, styles & images.
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Order } from "../interfaces/interface";
@@ -6,11 +7,28 @@ import "../styles/receipt.scss";
 import logo2 from "../assets/logo2.png";
 import logo from "../assets/Logo.png";
 
+// Komponenten Receipt defineras.
 const Receipt = () => {
+  // react-hooks useLocation, useState & useNavigate används.
+  // useLocation används för
+  // useState används för att lagra kvitto & eventuellt error.
+  // useNavigate används för navigering
   const location = useLocation();
   const [receipt, setReceipt] = useState<Order | null>(null);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+
+  // useEffect körs när location.state uppdateras.
+  // async fetchReceiptData defineras.
+  // api-nyckel hämtas från localStorage.
+  // orderId hämtas från location.state.
+  // api-nyckel & orderId loggas till konsoll.
+  // om api-nyckel eller orderId inte finns så kastas error.
+  // fetchReceipt med api-nyckel & orderId som parametrar importeras och körs.
+  // receipt data lagras i variabel.
+  // Array.isArray används för att säkerställa att receiptData.items är en array.
+  // setReceipt state funktion uppdaterar state att hålla receiptData.
+  // Om errror, kasta fel.
 
   useEffect(() => {
     const fetchReceiptData = async () => {
@@ -70,6 +88,8 @@ const Receipt = () => {
         </p>
 
         <ul className="receipt-ul">
+          {/* Array.isArray används för att säkerställa att receipt.items är en array */}
+          {/* sedan mappas och visas varje item */}
           {Array.isArray(receipt.items) && receipt.items.length > 0 ? (
             receipt.items.map((item, index) => (
               <li key={index} className="receipt-li">
