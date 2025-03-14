@@ -24,7 +24,7 @@ export interface cartItem extends MenuItem {
 
 export interface Order {
   id: string;
-  items: { name: string; price: number }[];
+  items: { name: string; price: number; quantity: number }[];
   orderValue: number;
   eta: string;
   state: string;

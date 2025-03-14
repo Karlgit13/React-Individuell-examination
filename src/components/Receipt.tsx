@@ -48,6 +48,7 @@ const Receipt = () => {
         console.log("Receipt data:", data);
 
         const receiptData = data?.receipt;
+        console.log(receiptData?.items);
 
         if (receiptData && Array.isArray(receiptData.items)) {
           setReceipt(receiptData);
@@ -93,7 +94,15 @@ const Receipt = () => {
           {Array.isArray(receipt.items) && receipt.items.length > 0 ? (
             receipt.items.map((item, index) => (
               <li key={index} className="receipt-li">
-                <span>{item.name}</span> <span>....... {item.price} SEK</span>
+                <span>
+                  {item.name} <br />{" "}
+                  <span className="receipt-span-quantity">
+                    {item.quantity} stycken
+                  </span>
+                </span>{" "}
+                <span className="receipt-span-price">
+                  ....... {item.price} SEK
+                </span>
               </li>
             ))
           ) : (

@@ -58,3 +58,13 @@
   display: flex;
   justify-content: space-between;
 }
+.receipt-span {
+  font-size: 14px;
+}
+.receipt-span-price {
+  display: flex;
+  align-items: end;
+}
+.receipt-span-quantity {
+  font-size: 16px;
+}

@@ -59,7 +59,7 @@ export const placeOrder = async (
       "x-zocom": apiKey,
     },
     body: JSON.stringify({
-      items: cartItems.map((item) => item.id),
+      items: cartItems.flatMap((item) => Array(item.quantity).fill(item.id)),
     }),
   });
 
@@ -68,6 +68,7 @@ export const placeOrder = async (
   }
 
   const data = await res.json();
+  console.log("Order response:", data);
   return data;
 };
 
